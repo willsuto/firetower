@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.html",
+    "start": "webpack serve --hot --progress",
     "build": "webpack",
     "dev": "webpack serve --open"
   },
@@ -17,7 +17,6 @@
   "author": "Will Suto",
   "license": "ISC",
   "dependencies": {
-    "@vis.gl/react-google-maps": "^0.8.1",
     "express": "^4.19.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
