@@ -57,5 +57,10 @@ module.exports = {
       template: 'index.html',
     }),
     new Dotenv()
-  ]
+  ],
+  resolve: {
+    fallback: {
+      stream: require.resolve('stream-browserify')
+    }
+  }
 };

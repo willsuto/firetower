@@ -3,7 +3,6 @@ import {
   AdvancedMarker,
   InfoWindow,
   useAdvancedMarkerRef,
-  Pin
 } from '@vis.gl/react-google-maps';
 import fireIcon from '../images/fireIcon40x40.png'
 
