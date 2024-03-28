@@ -1,11 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {APIProvider,Map, Marker} from '@vis.gl/react-google-maps';
 import Home from './Home.jsx';
 import Fire from './Fire.jsx';
+import getFires from '../../utilities/getFires.js'
 
 const MapUI = () => {
   
   const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+
+  const [fires, setFires] = useState([]);
+
+  
+  useEffect(() => {
+    const fetchFires = async () => {
+      try {
+        const firesArray = await getFires();
+        setFires(firesArray);
+      } catch (error) {
+        console.error('Error in useEffect fetchFires:', error);
+      }
+    };
+    fetchFires();
+  }, [])
+  
+  // console.log('fires', fires)
+
+  const fireComponents = fires.map(fire => {
+    return <Fire fireObj={fire} />
+  })
 
   return (
     <APIProvider apiKey={apiKey}>
@@ -19,7 +41,7 @@ const MapUI = () => {
         mapId= {'d2d675d44012d45'}
       >
         <Home />
-        <Fire />
+        {fireComponents}
       </Map>
     </APIProvider>
   )

@@ -7,16 +7,16 @@ import {
 import fireIcon from '../images/fireIcon40x40.png'
 
 
-const Fire = () => {
+const Fire = ({fireObj}) => {
   const [infoWindowOpen, setInfoWindowOpen] = useState(false);
   const [markerRef, marker] = useAdvancedMarkerRef();
-
+  
   return (
     <>
       <AdvancedMarker
         ref = {markerRef}
         onClick = {() => setInfoWindowOpen(true)}
-        position = {{lat: 32.6, lng: -116.6}}
+        position = {{lat: Number(fireObj.latitude), lng: Number(fireObj.longitude)}}
         title = {'Fire'}>
         <div style={{ position: 'relative' }}>
             {/* Centered image element */}

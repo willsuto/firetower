@@ -2,11 +2,11 @@
   "name": "FireTower",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "client/index.js",
   "scripts": {
-    "start": "webpack serve --hot --progress",
+    "start": "nodemon server/server.js",
     "build": "webpack",
-    "dev": "webpack serve --open"
+    "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --hot --progress --color\" \"nodemon ./server/server.js\""
   },
   "nodemonConfig": {
     "ignore": [
