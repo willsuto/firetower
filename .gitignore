@@ -1,3 +1,10 @@
+node_modules
+build/*.js
+npm-debug.log
+.DS_Store
+.env
+
+#Everything below was added from boilerplate github "Node" configuration
 # Logs
 logs
 *.log
