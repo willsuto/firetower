@@ -54,13 +54,8 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Development',
-      template: 'index.html',
+      template: 'index.html'
     }),
     new Dotenv()
-  ],
-  resolve: {
-    fallback: {
-      stream: require.resolve('stream-browserify')
-    }
-  }
+  ]
 };

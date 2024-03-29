@@ -12,17 +12,8 @@ app.use(express.static('build'));
 
 //test route
 app.get('/api/test', (req, res) => {
-  console.log('endpoint triggered')
   res.status(200).json({ message: 'Server is running'})
 })
-
-app.get('api/app', (req, res) => {
-  res.status(200).json('app')
-})
-
-// app.get('/api/app', (req, res) => {
-//   res.redirect()
-// })
 
 //catch-all route handler
 app.use((req, res) => res.status(404).send('!!Page not found!!'))

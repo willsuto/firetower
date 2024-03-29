@@ -25,8 +25,8 @@ const MapUI = () => {
   
   // console.log('fires', fires)
 
-  const fireComponents = fires.map(fire => {
-    return <Fire fireObj={fire} />
+  const fireComponents = fires.map((fire, index) => {
+    return <Fire key={index} fireObj={fire} />
   })
 
   return (
