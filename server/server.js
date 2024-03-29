@@ -1,5 +1,8 @@
 const express = require('express');
 const path = require('path');
+const { Pool } = require('pg');
+const bcrypt = require('bcryptjs');
+const userController = require('./controllers/userController');
 
 const app = express();
 const PORT = 3000;
@@ -14,6 +17,12 @@ app.use(express.static('build'));
 app.get('/api/test', (req, res) => {
   res.status(200).json({ message: 'Server is running'})
 })
+
+//signup handler
+app.post('/api/signup',
+  userController.createUser,
+  (req, res) => res.status(200).send()
+)
 
 //login handler
 app.post('/api/login', (req, res) => {

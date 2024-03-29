@@ -17,6 +17,7 @@
   "author": "Will Suto",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "csv-parser": "^3.0.0",
     "express": "^4.19.2",
     "pg": "^8.11.3",
