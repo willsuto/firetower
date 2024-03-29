@@ -44,6 +44,7 @@ module.exports = {
       directory: path.resolve(__dirname, 'build'),
       publicPath: '/build',
     },
+    historyApiFallback: true,
     proxy: [
       {
         context: ['/api'],

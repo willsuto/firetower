@@ -15,7 +15,18 @@ app.get('/api/test', (req, res) => {
   res.status(200).json({ message: 'Server is running'})
 })
 
-//catch-all route handler
+//login handler
+app.post('/api/login', (req, res) => {
+  console.log(req.body);
+  res.redirect('/home');
+})
+
+//catch-route handler
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client/index.html'));
+});
+
+//catch-all error handler
 app.use((req, res) => res.status(404).send('!!Page not found!!'))
 
 //global error handler
