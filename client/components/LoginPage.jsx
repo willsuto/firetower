@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
@@ -15,21 +16,23 @@ const LoginPage = () => {
     e.preventDefault();
     
     try {
-      const response = await fetch('/api/login', {
+      const response = await fetch('/api/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ username, password })
       });
-    
-      if (response.ok === true) {
-        navigate('/home');
-      } else { console.error('Auth failed')};
+      
+      const message = await response.json();
+      console.log(message)
+      // if (response.ok === true) {
+      //   // navigate('/home');
+      //   console.log(`Welcome ${username}`);
+      // } else { console.error('Auth failed')};
 
     } catch (error) { console.error({'Error occurred during login': error}) };
     
-    console.log('Signing up with:', username, password);
   };
 
   return (

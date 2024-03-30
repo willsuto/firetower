@@ -20,8 +20,9 @@ app.get('/api/test', (req, res) => {
 
 //signup handler
 app.post('/api/signup',
+  userController.checkDups,
   userController.createUser,
-  (req, res) => res.status(200).send()
+  (req, res) => res.status(200).json('User successfully created')
 )
 
 //login handler
