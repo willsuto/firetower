@@ -7,13 +7,11 @@ userController.checkDups = async (req, res, next) => {
   const queryResult = await db.query('SELECT username FROM users');
   const rows = queryResult.rows;
   const usernames = rows.map(row => row.username);
-  usernames.forEach(name => {
-    if (req.body.username === name) {
-      console.log('Username already exists')
-      return res.status(200).json('User already exists');
-    }
-    else { next() };
-  })
+  if (usernames.includes(req.body.username)) {
+    console.log('Username already exists')
+    return res.status(200).json('User already exists');
+  }
+  else next();
 }
 
 userController.createUser = (req, res, next) => {
@@ -25,8 +23,25 @@ userController.createUser = (req, res, next) => {
     const params = [ username, hash ];
     db.query( text, params);
   });
-  console.log('signed up?')
+  console.log(`${username} signed up`)
   return next();
+}
+
+userController.verifyUser = async (req, res, next) => {
+  const { username, password } = req.body;
+
+  const text = `SELECT password FROM users WHERE username=($1)`;
+
+  const params = [ username ]
+
+  const response = await db.query(text, params);
+
+  const hashedPassword = response.rows[0].password;
+
+  bcrypt.compare(password, hashedPassword, (err, response) => { 
+    response ? res.locals.message = 'Login successful' : res.locals.message = 'Login unsuccessful';
+    next();
+  })
 }
 
 module.exports = userController;

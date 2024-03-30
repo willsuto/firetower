@@ -26,14 +26,14 @@ app.post('/api/signup',
 )
 
 //login handler
-app.post('/api/login', (req, res) => {
-  console.log(req.body);
-  res.redirect('/home');
-})
+app.post('/api/login', 
+  userController.verifyUser,
+  (req, res) => res.status(200).json(res.locals.message)
+)
 
 //catch-route handler
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../client/index.html'));
+  res.sendFile(path.resolve(__dirname, '../index.html'));
 });
 
 //catch-all error handler
