@@ -2,7 +2,8 @@
 
 body {
   margin: 0;
-  padding: 0
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern sans-serif font stack */
 }
 
 .map {
@@ -14,19 +15,76 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  height: 80vh;
-  background-image: url("../images/fireIcon.png");
-  background-position: center;
+  height: 100vh;
   background-size: cover;
-  border: 1px solid black;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .loginBox {
-  border: 1px solid black;
-  background-image: url("../images/fireIcon.png");
-  background-position: center;
-  background-size: cover;
-  border: 1px solid black;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern sans-serif font stack */
+  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+  border-radius: 10px;
+  padding: 40px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
+  text-align: center;
 }
+
+.loginBox h1 {
+  margin-bottom: 20px;
+  color: #333; /* Dark text color */
+}
+
+.loginBox h2 {
+  margin-bottom: 20px;
+  color: #666; /* Slightly lighter text color */
+}
+
+.loginBox form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loginBox form div {
+  margin-bottom: 20px;
+}
+
+.loginBox label {
+  display: block;
+  margin-bottom: 5px;
+  color: #666; /* Slightly lighter text color */
+}
+
+.loginBox input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc; /* Light gray border */
+  border-radius: 5px;
+}
+
+.loginBox button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.loginBox button:first-child {
+  margin-bottom: 10px; /* Add space between buttons */
+  background-color: #50733F; /* Forest service green color for login button */
+  color: #fff; /* White text color */
+}
+
+.loginBox button:last-child {
+  background-color: #50733F; /* Forest service green color for signup button */
+  color: #fff; /* White text color */
+}
+
+.loginBox button:hover {
+  filter: brightness(90%); /* Reduce brightness on hover */
+}
+
+
 

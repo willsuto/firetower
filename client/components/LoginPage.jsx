@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+// import fireIcon from '../images/fireIcon.png';
+// const fireIcon = require('../images/fireIcon.png');
 import fireIcon from '../images/fireIcon.png'
 
 const LoginPage = () => {
@@ -7,7 +9,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLoginSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     
     try {
@@ -22,12 +24,14 @@ const LoginPage = () => {
       const message = await response.json();
       console.log(message);
 
-      if (message === 'Login successful') navigate('/home');
+      if (message === 'Login successful') navigate('/home')
+      else (alert('Login unsuccessful'));
+
     } catch (error) { console.error({'Error occurred during login': error}) }
 
   };
 
-  const handleSignupSubmit = async (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     
     try {
@@ -40,21 +44,18 @@ const LoginPage = () => {
       });
       
       const message = await response.json();
-      console.log(message)
-      // if (response.ok === true) {
-      //   // navigate('/home');
-      //   console.log(`Welcome ${username}`);
-      // } else { console.error('Auth failed')};
+      if (message === 'User already exists') alert('User already exists');
 
     } catch (error) { console.error({'Error occurred during signup': error}) };
     
   };
 
   return (
-    <div className='loginPage'>
-      <div className='loginBox'>  
-        <h2>Login Or Sign Up</h2>
-        <form onSubmit={handleLoginSubmit}>
+    <div className='loginPage' style={{backgroundImage: `url(${fireIcon})`} }>
+      <div className='loginBox' >  
+        <h1>FireTower</h1>
+        <h2>Log In Or Sign Up</h2>
+        <form>
           <div>
             <label htmlFor="username">Username:</label>
             <input
@@ -73,29 +74,9 @@ const LoginPage = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button type="submit">Login</button>
-        </form>
-
-        <form onSubmit={handleSignupSubmit}>
-          <div>
-            <label htmlFor="username-signup">Username:</label>
-            <input
-              type="text"
-              id="username-signup"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="password-signup">Password:</label>
-            <input
-              type="password"
-              id="password-signup"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <button type="submit">Sign Up</button>
+          <button type="submit" onClick={handleLogin}>Log In</button>
+          <hr></hr>
+          <button type="submit" onClick={handleSignup}>Sign Up</button>
         </form>
       </div>   
     </div>

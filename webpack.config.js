@@ -33,10 +33,7 @@ module.exports = {
         test: /\.(png|jpe?g|gif)$/i,
         use: [
           {
-            loader: 'url-loader',
-            options: {
-              limit: 8192, // Use url-loader for files smaller than 8kb, otherwise fallback to file-loader
-            },
+            loader: 'url-loader'
           },
         ],
       }
