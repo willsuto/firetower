@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import fireIcon from '../images/fireIcon.png';
-// const fireIcon = require('../images/fireIcon.png');
 import fireIcon from '../images/fireIcon.png'
 
 const LoginPage = () => {
@@ -9,6 +7,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  // Login
   const handleLogin = async (e) => {
     e.preventDefault();
     
@@ -31,6 +30,7 @@ const LoginPage = () => {
 
   };
 
+  // Sign up
   const handleSignup = async (e) => {
     e.preventDefault();
     
