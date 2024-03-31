@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import fireIcon from '../images/fireIcon.png'
+import { useDispatch } from 'react-redux';
+import { userSet } from '../reducers/userSlice';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // Login
   const handleLogin = async (e) => {

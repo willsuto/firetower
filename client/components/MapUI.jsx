@@ -5,7 +5,7 @@ import Fire from './Fire.jsx';
 import getFires from '../../utilities/getFires.js'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { homeSet } from '../reducers/homeSlice.js';
+import { homeSet } from '../reducers/userSlice.js';
 
 const MapUI = () => {
   
