@@ -86,5 +86,28 @@ body {
   filter: brightness(90%); /* Reduce brightness on hover */
 }
 
+.controlPanel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  height: 95vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern sans-serif font stack */
+  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+  border-radius: 10px;
+  padding: 5px;
+  margin: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
+  text-align: center;
 
-
+  /* width: 100%;
+  background-color: rgba(37, 37, 37, 0.3);
+  /* opacity: .3; */
+  /* color: #fff;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-around; */ 
+}

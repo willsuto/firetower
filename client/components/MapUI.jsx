@@ -73,8 +73,10 @@ const MapUI = () => {
 
   return (
     <APIProvider apiKey={apiKey}>
-      <button onClick={() => setSettingHomeLoc(true)}>Set Home</button>
-      <button onClick={handleLogout}>Log Out</button>
+      <div className='controlPanel'>
+        <button onClick={() => setSettingHomeLoc(true)}>Set Home</button>
+        <button onClick={handleLogout}>Log Out</button>
+      </div>
       <Map
         className='map'
         mapTypeId={'terrain'}
