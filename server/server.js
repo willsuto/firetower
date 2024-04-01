@@ -22,7 +22,7 @@ app.get('/api/test', (req, res) => {
 app.post('/api/signup',
   userController.checkDups,
   userController.createUser,
-  (req, res) => res.status(200).json('User successfully created')
+  (req, res) => res.status(200).json(res.locals.user)
 )
 
 //login handler

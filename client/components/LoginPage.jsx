@@ -29,7 +29,7 @@ const LoginPage = () => {
       if (user.username) {
         dispatch(userSet(user));
         navigate('/home');
-      } else (alert('Login unsuccessful'));
+      } else (alert(user));
 
     } catch (error) { console.error({'Error occurred during login': error}) }
 
@@ -49,7 +49,8 @@ const LoginPage = () => {
       });
       
       const message = await response.json();
-      if (message === 'User already exists') alert('User already exists');
+      if (message === 'User already exists') alert('User already exists')
+      else alert(message);
 
     } catch (error) { console.error({'Error occurred during signup': error}) };
     

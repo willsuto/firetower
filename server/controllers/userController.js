@@ -24,7 +24,7 @@ userController.createUser = async (req, res, next) => {
     const params = [ username, hash ];
     const queryResponse = await db.query( text, params);
   });
-  console.log(`${username} signed up`)
+  res.locals.message = `Welcome, ${username}. Login to view your home page.`;
   return next();
 }
 
@@ -39,12 +39,18 @@ userController.verifyUser = async (req, res, next) => {
 
   const user = queryResponse.rows[0];
 
-  const hashedPassword = user.password;
-
-  bcrypt.compare(password, hashedPassword, (err, response) => { 
-    response ? res.locals.user = user : res.locals.user = 'Login unsuccessful';
+  if (!user) {
+    res.locals.user = `No user named ${username} found.`;
     next();
-  })
+  }
+  else {
+    const hashedPassword = user.password;
+    console.log('hashed password', hashedPassword)
+    bcrypt.compare(password, hashedPassword, (err, response) => { 
+      response ? res.locals.user = user : res.locals.user = 'Incorrect password';
+      next();
+    })
+  }
 }
 
 // save existing user's modified data to db

@@ -79,7 +79,7 @@ const MapUI = () => {
         className='map'
         mapTypeId={'terrain'}
         defaultCenter={(lat && lng) ? {lat: Number(lat), lng: Number(lng)} : {lat: 39.8283, lng: -98.5795}}
-        defaultZoom={(lat && lng) ? 14 : 5}
+        defaultZoom={(lat && lng) ? 15 : 5}
         gestureHandling={'greedy'}
         disableDefaultUI={true}
         mapId= {'d2d675d44012d45'}
