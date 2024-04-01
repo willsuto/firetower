@@ -6,14 +6,17 @@ const pool = new Pool({
   connectionString: PG_URI
 });
 
-// DB Notes
-// Elephant SQL DB
-// Schema:
-// + Users
-//   - username
-    //  - password
-    //  - home_location
- //etc
+/* DB Notes
+Elephant SQL DB
+Schema:
+users
+  - user_id
+  - username
+  - password
+  - home_lat
+  - home_long
+  - home_location_set -- defaults to false
+*/
 
   module.exports = {
     query: (text, params, callback) => {

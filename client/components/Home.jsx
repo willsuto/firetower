@@ -10,15 +10,15 @@ import { useSelector, useDispatch } from 'react-redux';
 const Home = () => {
   const [infoWindowOpen, setInfoWindowOpen] = useState(false);
   const [markerRef, marker] = useAdvancedMarkerRef();
-  const homeLocation = useSelector(state => state.home)
+  const user = useSelector(state => state.user)
 
-  if (homeLocation.homeLocationSet) {
+  if (user.homeLocationSet) {
     return (
       <>
         <AdvancedMarker
           ref={markerRef}
           onClick={() => setInfoWindowOpen(true)}
-          position = {{lat: homeLocation.lat, lng: homeLocation.lng}}
+          position = {{lat: Number(user.lat), lng: Number(user.lng)}}
           title={'Home'}
         />
         {infoWindowOpen && (

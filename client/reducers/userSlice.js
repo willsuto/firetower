@@ -13,18 +13,19 @@ const userSlice = createSlice({
   reducers: {
 
     userSet(state, action) {
-      const {user, lat, lng} = action.payload;
-      state.name = name;
-      state.lat = lat;
-      state.lng = lng;
-      state[user].homeLocationSet = false;
+      const {username, home_lat, home_long, home_location_set} = action.payload;
+      console.log(username, home_lat, home_long, home_location_set)
+      state.username = username;
+      state.lat = home_lat;
+      state.lng = home_long;
+      state.homeLocationSet = home_location_set;
     },
 
     userHomeSet(state, action) {
-      const {user, lat, lng} = action.payload;
-      state[user].lat = lat;
-      state[user].lng = lng;
-      state[user].homeLocationSet = true;
+      const {lat, lng} = action.payload;
+      state.lat = lat;
+      state.lng = lng;
+      state.homeLocationSet = true;
     }
   }
 })

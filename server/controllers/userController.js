@@ -23,7 +23,6 @@ userController.createUser = async (req, res, next) => {
     const text = `INSERT INTO users (username, password) VALUES ($1, $2) RETURNING username, home_lat, home_long`;
     const params = [ username, hash ];
     const queryResponse = await db.query( text, params);
-    console.log(queryResponse.rows[0]) 
   });
   console.log(`${username} signed up`)
   return next();
@@ -38,12 +37,29 @@ userController.verifyUser = async (req, res, next) => {
 
   const queryResponse = await db.query(text, params);
 
-  const hashedPassword = queryResponse.rows[0].password;
+  const user = queryResponse.rows[0];
+
+  const hashedPassword = user.password;
 
   bcrypt.compare(password, hashedPassword, (err, response) => { 
-    response ? res.locals.message = 'Login successful' : res.locals.message = 'Login unsuccessful';
+    response ? res.locals.user = user : res.locals.user = 'Login unsuccessful';
     next();
   })
 }
+
+// save existing user's modified data to db
+userController.saveUserData = async (req, res, next) => {
+  const { username, lat, lng, homeLocationSet } = req.body;
+  const text = `UPDATE users SET home_lat=($1), home_long=($2), home_location_set=($3) WHERE username=($4)`;
+  const params = [ lat, lng, homeLocationSet, username ];
+  console.log('params', params)
+
+  try {
+    const queryResponse = await db.query(text, params);
+    console.log('query response', queryResponse);
+  } catch (error) { next(error) };
+
+  next();
+};
 
 module.exports = userController;

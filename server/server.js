@@ -28,7 +28,15 @@ app.post('/api/signup',
 //login handler
 app.post('/api/login', 
   userController.verifyUser,
-  (req, res) => res.status(200).json(res.locals.message)
+  (req, res) => {
+    res.status(200).json(res.locals.user)
+  }
+)
+
+//logout handler
+app.put('/api/logout',
+  userController.saveUserData,
+  (req, res) => { res.status(200).send() }
 )
 
 //catch-route handler

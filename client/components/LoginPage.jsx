@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import fireIcon from '../images/fireIcon.png'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userSet } from '../reducers/userSlice';
 
 const LoginPage = () => {
@@ -9,6 +9,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const userData = useSelector(state => state.user)
 
   // Login
   const handleLogin = async (e) => {
@@ -23,11 +24,12 @@ const LoginPage = () => {
         body: JSON.stringify({ username, password })
       })
  
-      const message = await response.json();
-      console.log(message);
+      const user = await response.json();
 
-      if (message === 'Login successful') navigate('/home')
-      else (alert('Login unsuccessful'));
+      if (user.username) {
+        dispatch(userSet(user));
+        navigate('/home');
+      } else (alert('Login unsuccessful'));
 
     } catch (error) { console.error({'Error occurred during login': error}) }
 
