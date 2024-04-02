@@ -93,14 +93,15 @@ body {
   z-index: 10;
   display: flex;
   flex-direction: column;
-  height: 95vh;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern sans-serif font stack */
-  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+  background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
   border-radius: 10px;
   padding: 5px;
+  padding-top: 15px;
   margin: 5px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
   text-align: center;
+  height: auto;
 
   /* width: 100%;
   background-color: rgba(37, 37, 37, 0.3);
@@ -110,4 +111,20 @@ body {
   box-sizing: border-box;
   display: flex;
   justify-content: space-around; */ 
+}
+
+
+.controlButton {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 10px; /* Add space between buttons */
+  background-color: #50733F; /* Forest service green color for login button */
+  color: #fff; /* White text color */
+}
+
+.controlPanel button:hover {
+  filter: brightness(90%); /* Reduce brightness on hover */
 }

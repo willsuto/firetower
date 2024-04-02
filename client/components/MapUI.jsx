@@ -93,10 +93,10 @@ const MapUI = () => {
   return (
     <APIProvider apiKey={apiKey}>
       <div className='controlPanel'>
-        <button onClick={() => setSettingHomeLoc(true)}>Home</button>
-        <button onClick={handleFiresClick}>Fires</button>
-        <button onClick= {handleNeighborsClick}>Neighbors</button>
-        <button onClick={handleLogout}>Log Out</button>
+        <button className='controlButton' onClick={() => setSettingHomeLoc(true)}>Home</button>
+        <button className='controlButton' onClick={handleFiresClick}>Fires</button>
+        <button className='controlButton' onClick= {handleNeighborsClick}>Neighbors</button>
+        <button className='controlButton' onClick={handleLogout}>Log Out</button>
       </div>
       <Map
         className='map'
