@@ -4,6 +4,7 @@ const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
 const userController = require('./controllers/userController');
 const firesController = require('./controllers/firesController');
+const neighborsController = require('./controllers/neighborsController');
 
 const app = express();
 const PORT = 3000;
@@ -44,6 +45,12 @@ app.get('/api/fires',
 app.get('/api/getFiresState',
   firesController.queryFires,
   (req, res) => res.status(200).json(res.locals.firesArray)
+)
+
+//send neighbors to client
+app.post('/api/neighbors',
+  neighborsController.getNeighbors,
+  (req, res) => res.status(200).json(res.locals.neighbors)
 )
 
 //catch-route handler

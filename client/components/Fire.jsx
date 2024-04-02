@@ -28,8 +28,8 @@ const Fire = ({fireObj}) => {
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
-                maxWidth: '50px', // Adjust size as needed
-                maxHeight: '50px',
+                // maxWidth: '50px', 
+                // maxHeight: '50px',
               }}
             />
           </div>

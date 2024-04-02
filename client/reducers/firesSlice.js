@@ -11,8 +11,7 @@ const firesSlice = createSlice({
     firesFetched(state, action) {
       return action.payload;
     },
-
-  
+    
   }
 })
 

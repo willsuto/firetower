@@ -14,7 +14,6 @@ const userSlice = createSlice({
 
     userSet(state, action) {
       const {username, home_lat, home_long, home_location_set} = action.payload;
-      console.log(username, home_lat, home_long, home_location_set)
       state.username = username;
       state.lat = home_lat;
       state.lng = home_long;

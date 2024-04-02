@@ -36,10 +36,10 @@ CREATE TABLE fires (
     acq_time INTEGER,
     satellite VARCHAR(10),
     instrument VARCHAR(10),
-    confidence CHAR(1),
+    confidence VARCHAR,
     version VARCHAR(10),
     bright_ti5 FLOAT,
     frp FLOAT,
-    daynight CHAR(1),
+    daynight VARCHAR(1),
     UNIQUE (latitude, longitude)
 );

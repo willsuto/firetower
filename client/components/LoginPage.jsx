@@ -12,14 +12,6 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userData = useSelector(state => state.user)
-  
-  // useEffect(() => {
-  //   async function setFiresState () {
-  //     const firesArray = await getFires();
-  //     dispatch(firesFetched(firesArray));
-  //   };
-  //   setFiresState();
-  // }, [])
 
   // Login
   const handleLogin = async (e) => {
