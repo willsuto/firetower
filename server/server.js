@@ -33,7 +33,7 @@ app.put('/api/logout',
   (req, res) => res.status(200).send() 
 )
 
-//fires handler
+//fetch fires and save to db handler
 app.get('/api/fires', 
   firesController.getFires, 
   firesController.storeFires,
@@ -43,10 +43,7 @@ app.get('/api/fires',
 //send fires to client
 app.get('/api/getFiresState',
   firesController.queryFires,
-  (req, res) => {
-    console.log(res.locals.firesArray);
-    res.status(200).json(res.locals.firesArray)
-  }
+  (req, res) => res.status(200).json(res.locals.firesArray)
 )
 
 //catch-route handler
