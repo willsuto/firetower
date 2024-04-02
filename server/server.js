@@ -3,6 +3,7 @@ const path = require('path');
 const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
 const userController = require('./controllers/userController');
+const firesController = require('./controllers/firesController');
 
 const app = express();
 const PORT = 3000;
@@ -12,11 +13,6 @@ app.use(express.json());
 
 //serve static files from the build directory
 app.use(express.static('build'));
-
-//test route
-app.get('/api/test', (req, res) => {
-  res.status(200).json({ message: 'Server is running'})
-})
 
 //signup handler
 app.post('/api/signup',
@@ -28,15 +24,20 @@ app.post('/api/signup',
 //login handler
 app.post('/api/login', 
   userController.verifyUser,
-  (req, res) => {
-    res.status(200).json(res.locals.user)
-  }
+  (req, res) => res.status(200).json(res.locals.user)
 )
 
 //logout handler
 app.put('/api/logout',
   userController.saveUserData,
-  (req, res) => { res.status(200).send() }
+  (req, res) => res.status(200).send() 
+)
+
+//fires handler
+app.get('/api/fires', 
+  firesController.getFires, 
+  firesController.storeFires,
+  (req, res) => res.status(200).send()
 )
 
 //catch-route handler

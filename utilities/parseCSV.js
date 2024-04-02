@@ -25,4 +25,4 @@ function parseCSV(csvString) {
 };
 
 
-export default parseCSV;
+module.exports = parseCSV;

@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import fireIcon from '../images/fireIcon.png'
 import { useDispatch, useSelector } from 'react-redux';
 import { userSet } from '../reducers/userSlice';
+import getFires from '../../utilities/getFires';
+import { firesFetched } from '../reducers/firesSlice'
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -10,6 +12,13 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userData = useSelector(state => state.user)
+  useEffect(() => {
+    async function setFiresState () {
+      const firesArray = await getFires();
+      dispatch(firesFetched(firesArray));
+    };
+    setFiresState();
+  }, [])
 
   // Login
   const handleLogin = async (e) => {
