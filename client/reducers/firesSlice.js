@@ -9,9 +9,7 @@ const firesSlice = createSlice({
   reducers: {
 
     firesFetched(state, action) {
-      const fires = action.payload;
-      console.log('state', state)
-      state = [...state, ...fires];
+      return action.payload;
     },
 
   

@@ -6,15 +6,18 @@ import getFires from '../../utilities/getFires.js'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { userHomeSet } from '../reducers/userSlice.js';
+import { firesFetched } from '../reducers/firesSlice.js';
 
 
 const MapUI = () => {
   
   const apiKey = process.env.GOOGLE_MAPS_API_KEY;
 
-  const [fires, setFires] = useState([]);
+  // const [fires, setFires] = useState([]);
   const [settingHomeLoc, setSettingHomeLoc] = useState(false);
   const { username, lat, lng, homeLocationSet } = useSelector(state => state.user)
+  const fires = useSelector(state => state.fires);
+  const [fireComponents, setFireComponents] = useState([]); 
 
   const navigate = useNavigate();
 
@@ -69,13 +72,28 @@ const MapUI = () => {
     navigate('/');
   }
 
-  
+  const handleFiresClick = async (e) => {
+    e.preventDefault();
+
+    try {
+      const getFiresResponse = await fetch('api/getFiresState');
+      const fires = await getFiresResponse.json();
+      // console.log('front end fires', fires)
+      dispatch(firesFetched(fires));
+      // make an array of fire components
+      // const fireComponents = fires.map((fire, index) => {
+      //   return <Fire key={index} fireObj={fire} />
+      // });
+      setFireComponents(fires.map((fire, index) => <Fire key={index} fireObj={fire} />));
+    } catch (error) { console.error('error in handlesFiresClick', error) }
+
+  };
 
   return (
     <APIProvider apiKey={apiKey}>
       <div className='controlPanel'>
         <button onClick={() => setSettingHomeLoc(true)}>Home</button>
-        <button>Fires</button>
+        <button onClick={ handleFiresClick }>Fires</button>
         <button>Neighbors</button>
         <button onClick={handleLogout}>Log Out</button>
       </div>
@@ -90,7 +108,7 @@ const MapUI = () => {
         onClick={ handleClick }
       >
         <Home />
-        {/* {fireComponents} */}
+        {fireComponents && fireComponents.length > 0 && fireComponents}
       </Map>
     </APIProvider>
   )

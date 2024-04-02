@@ -18,43 +18,44 @@ firesController.getFires = async (req, res, next) => {
   } catch (error) { next(error) }
 }
 
-// firesController.queryFires = async (req, res, next) => {
+firesController.queryFires = async (req, res, next) => {
+  const queryResponse = await db.query(`SELECT * FROM fires`);
+  res.locals.firesArray = queryResponse.rows;
+  // console.log('backend fires', res.locals.firesArray);
+  next();
+}
 
-// }
-
-// firesController.compareFires
-
-// firesController.storeFires = async (req, res, next) => {
+firesController.storeFires = async (req, res, next) => {
   
-//   const queryText = `INSERT INTO fires (latitude, longitude, bright_ti4, scan, track, acq_date, acq_time, satellite, instrument, confidence, version, bright_ti5, frp, daynight)
-//                     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
-//                     ON CONFLICT DO NOTHING`;
+  const queryText = `INSERT INTO fires (latitude, longitude, bright_ti4, scan, track, acq_date, acq_time, satellite, instrument, confidence, version, bright_ti5, frp, daynight)
+                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+                    ON CONFLICT DO NOTHING`;
 
   
 
-//   // res.locals.firesArray.forEach( async fire => {
-//   //   const values = [
-//   //     fire.latitude,
-//   //     fire.longitude,
-//   //     fire.bright_ti4,
-//   //     fire.scan,
-//   //     fire.track,
-//   //     fire.acq_date,
-//   //     fire.acq_time,
-//   //     fire.satellite,
-//   //     fire.instrument,
-//   //     fire.confidence,
-//   //     fire.version,
-//   //     fire.bright_ti5,
-//   //     fire.frp,
-//   //     fire.daynight
-//   //   ];
-//   //   await db.query(queryText, values);
-//   // })
+  // res.locals.firesArray.forEach( async fire => {
+  //   const values = [
+  //     fire.latitude,
+  //     fire.longitude,
+  //     fire.bright_ti4,
+  //     fire.scan,
+  //     fire.track,
+  //     fire.acq_date,
+  //     fire.acq_time,
+  //     fire.satellite,
+  //     fire.instrument,
+  //     fire.confidence,
+  //     fire.version,
+  //     fire.bright_ti5,
+  //     fire.frp,
+  //     fire.daynight
+  //   ];
+  //   await db.query(queryText, values);
+  // })
 
 
-//   next();
-// }
+  next();
+}
 
 
 firesController.storeFires = async (req, res, next) => {
@@ -118,6 +119,7 @@ firesController.storeFires = async (req, res, next) => {
 
   next();
 };
+
 
 
 module.exports = firesController;

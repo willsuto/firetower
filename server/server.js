@@ -40,6 +40,15 @@ app.get('/api/fires',
   (req, res) => res.status(200).send()
 )
 
+//send fires to client
+app.get('/api/getFiresState',
+  firesController.queryFires,
+  (req, res) => {
+    console.log(res.locals.firesArray);
+    res.status(200).json(res.locals.firesArray)
+  }
+)
+
 //catch-route handler
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../index.html'));
