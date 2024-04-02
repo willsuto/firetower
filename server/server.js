@@ -19,7 +19,7 @@ app.use(express.static('build'));
 app.post('/api/signup',
   userController.checkDups,
   userController.createUser,
-  (req, res) => res.status(200).json(res.locals.user)
+  (req, res) => res.status(200).json(res.locals.message)
 )
 
 //login handler

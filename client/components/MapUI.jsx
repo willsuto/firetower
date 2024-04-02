@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {APIProvider, Map } from '@vis.gl/react-google-maps';
 import Home from './Home.jsx';
 import Fire from './Fire.jsx';
+import Neighbor from './Neighbor.jsx';
 import getFires from '../../utilities/getFires.js'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,7 +17,9 @@ const MapUI = () => {
   const [settingHomeLoc, setSettingHomeLoc] = useState(false);
   const { username, lat, lng, homeLocationSet } = useSelector(state => state.user)
   const fires = useSelector(state => state.fires);
+  const neighbors = useSelector(state => state.neighbors);
   const [fireComponents, setFireComponents] = useState([]); 
+  const [neighborComponents, setNeighborComponents] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -25,9 +28,9 @@ const MapUI = () => {
         const neighborsResponse = await fetch('/api/neighbors', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json', // Specify the content type of the request body
+            'Content-Type': 'application/json', 
           },
-          body: JSON.stringify({ username }) // Optional: Include the request body
+          body: JSON.stringify({ username }) 
         });
         const neighbors = await neighborsResponse.json();
         dispatch(neighborsSet(neighbors));
@@ -73,7 +76,18 @@ const MapUI = () => {
   };
 
   const handleNeighborsClick = async (e) => {
+    e.preventDefault();
+
+    const neighborComponents = neighbors.map((neighbor, index) => {
+      if (neighbor.home_lat && neighbor.home_long) {
+        console.log('neighbor', neighbor)
+        return <Neighbor key={index} name={neighbor.username} lat={neighbor.home_lat} lng={neighbor.home_long} />
+      };  
+    }); 
     
+    console.log('neighborComponents', neighborComponents)
+
+    setNeighborComponents(neighborComponents);
   }
 
   return (
@@ -96,6 +110,8 @@ const MapUI = () => {
       >
         <Home />
         {fireComponents && fireComponents.length > 0 && fireComponents}
+        {/* <Neighbor name={'will'} lat={32} lng={-117} message={'hi'} /> */}
+        {neighborComponents && neighborComponents.length > 0 && neighborComponents}
       </Map>
     </APIProvider>
   )

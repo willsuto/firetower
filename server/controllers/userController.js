@@ -23,6 +23,7 @@ userController.createUser = async (req, res, next) => {
     const text = `INSERT INTO users (username, password) VALUES ($1, $2) RETURNING username, home_lat, home_long`;
     const params = [ username, hash ];
     const queryResponse = await db.query( text, params);
+    console.log(queryResponse)
   });
   res.locals.message = `Welcome, ${username}. Login to view your home page.`;
   return next();
