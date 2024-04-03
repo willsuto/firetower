@@ -5,9 +5,21 @@ const bcrypt = require('bcryptjs');
 const userController = require('./controllers/userController');
 const firesController = require('./controllers/firesController');
 const neighborsController = require('./controllers/neighborsController');
+// const bodyParser = require('body-parser');
+const cors = require('cors');
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const config = require('../webpack.config.js')
 
 const app = express();
 const PORT = 3000;
+
+const compiler = webpack(config);
+app.use(webpackDevMiddleware(compiler, {
+  publicPath: config.output.publicPath
+}))
+
+app.use(cors());
 
 //middleware for parsing JSON bodies
 app.use(express.json());
@@ -64,7 +76,58 @@ app.delete('/api/deleteMessage',
 
 )
 
+let clients = [];
+//SSE test
+app.get('/api/events', (req, res) => {
+  const headers = {
+    'Content-Type': 'text/event-stream',
+    'Connection': 'keep-alive',
+    'Cache-Control': 'no-cache'
+  };
+  res.writeHead(200, headers);
 
+  const data = `data: ${JSON.stringify(new Date().toLocaleTimeString())}\n\n`;
+
+  res.write(data);
+
+   // Function to send SSE messages at regular intervals
+   const sendSSEMessage = () => {
+    const data = `data: ${JSON.stringify(new Date().toLocaleTimeString())}\n\n`;
+    res.write(data);
+  };
+
+  // Send SSE messages every five seconds
+  const intervalId = setInterval(sendSSEMessage, 5000);
+
+  const clientId = Date.now();
+
+  const newClient = {
+    id: clientId,
+    res
+  };
+
+  clients.push(newClient);
+
+  console.log(`Connected with ${clientId}`);
+
+  // Listen for the client closing the connection and stop sending messages
+  req.on('close', () => {
+    clearInterval(intervalId);
+    console.log('Connection closed');
+    console.log(`${clientId} Connection closed`);
+    clients = clients.filter(client => client.id !== clientId);
+  });
+
+  // const intervalId = setInterval(() => {
+  //   const message = `data: ${new Date().toLocaleTimeString()}\n\n`
+  //   res.write(message);
+  // }, 5000);
+
+  // req.on('close', () => {
+  //   clearInterval(intervalId);
+  //   res.end();
+  // });
+})
 
 //catch-route handler
 app.get('*', (req, res) => {

@@ -22,6 +22,22 @@ const MapUI = () => {
   const [neighborComponents, setNeighborComponents] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  
+
+  //SSE Test DO I NEED DEPENDENCY ARRAY
+  useEffect(() => {
+    const eventSource = new EventSource('api/events');
+
+    eventSource.onmessage = (event) => {
+      const parsedData = JSON.parse(event.data)
+      console.log(parsedData)
+    }
+
+    eventSource.onerror = (error) => console.log('sse error', error);
+
+    // return () => eventSource.close();
+  }, [])
+
   useEffect(() => {
     const fetchNeighbors = async () => {
       try {
