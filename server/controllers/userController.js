@@ -75,14 +75,24 @@ userController.addMessage = async (req, res, next) => {
   const { username, message } = req.body;
   const text = `UPDATE users SET message=($1) WHERE username=($2)`;
   const params = [message, username];
+  res.locals.message = message;
   
   try {
     const queryResponse = await db.query(text, params);
-    console.log('queryResponse', queryResponse)
+    // console.log('queryResponse', queryResponse)
     next();
   } catch (error) { next(error) };
+}
 
-
+//delete message to user profile in db
+userController.deleteMessage = async (req, res, next) => {
+  const { username, messsage } = req.body;
+  const text = `UPDATE users SET message=NULL WHERE username=($1)`;
+  const params = [username];
+  try {
+    await db.query(text, params);
+    next()
+  } catch(error) { next(error) };
 }
 
 

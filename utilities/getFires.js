@@ -11,6 +11,10 @@ const parseCSV = require('./parseCSV');
 //MODIS USA 3 day
 const firmsURL ='https://firms.modaps.eosdis.nasa.gov/usfs/api/country/csv/e538d9b4f7e437266b0fa0e9749a5599/MODIS_NRT/USA/3';
 
+//USA VIIRS 20 
+// const firmsURL ='https://firms.modaps.eosdis.nasa.gov/usfs/api/country/csv/e538d9b4f7e437266b0fa0e9749a5599/VIIRS_NOAA20_NRT/USA/1'
+
+
 const getFires = async () => {
   try { 
     const fireData = await fetch(firmsURL, { mode: 'no-cors' });

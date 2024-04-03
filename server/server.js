@@ -68,66 +68,67 @@ app.post('/api/neighbors',
 //add message to user profile
 app.put('/api/message',
   userController.addMessage,
-  (req, res) => res.status(200).json('Message posted')
+  (req, res) => res.status(200).json(res.locals.message)
 )
 
 //delete message from user profile
 app.delete('/api/deleteMessage',
-
+  userController.deleteMessage,
+  (req, res) => res.status(200).json('Message deleted')
 )
 
-let clients = [];
-//SSE test
-app.get('/api/events', (req, res) => {
-  const headers = {
-    'Content-Type': 'text/event-stream',
-    'Connection': 'keep-alive',
-    'Cache-Control': 'no-cache'
-  };
-  res.writeHead(200, headers);
+// let clients = [];
+// //SSE test
+// app.get('/api/events', (req, res) => {
+//   const headers = {
+//     'Content-Type': 'text/event-stream',
+//     'Connection': 'keep-alive',
+//     'Cache-Control': 'no-cache'
+//   };
+//   res.writeHead(200, headers);
 
-  const data = `data: ${JSON.stringify(new Date().toLocaleTimeString())}\n\n`;
+//   const data = `data: ${JSON.stringify(new Date().toLocaleTimeString())}\n\n`;
 
-  res.write(data);
+//   res.write(data);
 
-   // Function to send SSE messages at regular intervals
-   const sendSSEMessage = () => {
-    const data = `data: ${JSON.stringify(new Date().toLocaleTimeString())}\n\n`;
-    res.write(data);
-  };
+//    // Function to send SSE messages at regular intervals
+//    const sendSSEMessage = () => {
+//     const data = `data: ${JSON.stringify(new Date().toLocaleTimeString())}\n\n`;
+//     res.write(data);
+//   };
 
-  // Send SSE messages every five seconds
-  const intervalId = setInterval(sendSSEMessage, 5000);
+//   // Send SSE messages every five seconds
+//   const intervalId = setInterval(sendSSEMessage, 5000);
 
-  const clientId = Date.now();
+//   const clientId = Date.now();
 
-  const newClient = {
-    id: clientId,
-    res
-  };
+//   const newClient = {
+//     id: clientId,
+//     res
+//   };
 
-  clients.push(newClient);
+//   clients.push(newClient);
 
-  console.log(`Connected with ${clientId}`);
+//   console.log(`Connected with ${clientId}`);
 
-  // Listen for the client closing the connection and stop sending messages
-  req.on('close', () => {
-    clearInterval(intervalId);
-    console.log('Connection closed');
-    console.log(`${clientId} Connection closed`);
-    clients = clients.filter(client => client.id !== clientId);
-  });
+//   // Listen for the client closing the connection and stop sending messages
+//   req.on('close', () => {
+//     clearInterval(intervalId);
+//     console.log('Connection closed');
+//     console.log(`${clientId} Connection closed`);
+//     clients = clients.filter(client => client.id !== clientId);
+//   });
 
-  // const intervalId = setInterval(() => {
-  //   const message = `data: ${new Date().toLocaleTimeString()}\n\n`
-  //   res.write(message);
-  // }, 5000);
+//   // const intervalId = setInterval(() => {
+//   //   const message = `data: ${new Date().toLocaleTimeString()}\n\n`
+//   //   res.write(message);
+//   // }, 5000);
 
-  // req.on('close', () => {
-  //   clearInterval(intervalId);
-  //   res.end();
-  // });
-})
+//   // req.on('close', () => {
+//   //   clearInterval(intervalId);
+//   //   res.end();
+//   // });
+// })
 
 //catch-route handler
 app.get('*', (req, res) => {

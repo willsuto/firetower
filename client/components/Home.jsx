@@ -5,17 +5,18 @@ import {
   useAdvancedMarkerRef
 } from '@vis.gl/react-google-maps';
 import { useSelector, useDispatch } from 'react-redux';
+import { userMessageSet } from '../reducers/userSlice';
 
 const Home = () => {
   const [infoWindowOpen, setInfoWindowOpen] = useState(false);
   const [markerRef, marker] = useAdvancedMarkerRef();
-  const user = useSelector(state => state.user);
-  const [message, setMessage] = useState('');
-  const currentUser = useSelector(state => state.user);
+  const { username, homeLocationSet, message, lat, lng } = useSelector(state => state.user);
+  const [messageText, setMessageText] = useState('');
+  const dispatch = useDispatch();
 
   const handleMessageChange = (e) => {
     e.preventDefault();
-    setMessage(e.target.value); // Update message state with the new value from the event
+    setMessageText(e.target.value); // Update message state with the new value from the event
   }
 
   const handleSubmit = async (e) => {
@@ -27,29 +28,54 @@ const Home = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username: currentUser.username, message: message })
+        body: JSON.stringify({ username: username, message: messageText })
       });
       
-      const alertMessage = await response.json();
-      alert(alertMessage)
-      // const message = await response.json();
-      // if (message === 'User already exists') alert('User already exists')
-      // else alert(message);
+      const messageSentBack = await response.json();
+      
+      console.log('messageSentBack', messageSentBack);
+
+      dispatch(userMessageSet(messageSentBack))
+
+    } catch (error) { console.error({'Error occurred during message put request': error}) };
+
+    // setMessagePosted(true);
+  }
+
+  const handleDeleteClick = async (e) => {
+    // delete post from database
+    // remove post from state
+    e.preventDefault();
+    
+    try {
+      const response = await fetch('/api/deleteMessage', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: username, message: message })
+      });
+      
+      const messageSentBack = await response.json();
+      
+      // alert(messageSentBack);
+      
+      dispatch(userMessageSet(null))
 
     } catch (error) { console.error({'Error occurred during message put request': error}) };
 
   }
 
-  if (user.homeLocationSet) {
+  if (homeLocationSet) {
     return (
       <>
         <AdvancedMarker
           ref={markerRef}
           onClick={() => setInfoWindowOpen(true)}
-          position={{ lat: Number(user.lat), lng: Number(user.lng) }}
+          position={{ lat: Number(lat), lng: Number(lng) }}
           title={'Home'}
         />
-        {infoWindowOpen && (
+        {infoWindowOpen && !message && (
           <InfoWindow
             anchor={marker}
             maxWidth={'auto'}
@@ -57,30 +83,25 @@ const Home = () => {
           >
           <form onSubmit={handleSubmit}>
             <label>Message:
-              <input type="text" value={message} onChange={handleMessageChange}/>
+              <input type="text" value={messageText} onChange={handleMessageChange}/>
             </label>
           </form>
           </InfoWindow>
         )}
+        {message && (
+          <InfoWindow
+          anchor={marker}
+          maxWidth={'auto'}
+          onCloseClick={() => setInfoWindowOpen(false)}
+        >
+         {message}
+         <button onClick={handleDeleteClick}>Delete</button>
+        </InfoWindow>
+        )
+        }
       </>
     )
   }
 };
 
 export default Home;
-
-
-{/* <div>
-              <form onSubmit={handleSubmit}>
-                <div>
-                  <label htmlFor="message">Message:</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={message}
-                    onChange={handleMessageChange}
-                  ></textarea>
-                </div>
-                <button type="submit">Submit</button>
-              </form>
-            </div> */}

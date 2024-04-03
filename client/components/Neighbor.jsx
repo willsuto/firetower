@@ -9,17 +9,20 @@ import { useSelector, useDispatch } from 'react-redux';
 
 
 const Neighbor = ({name, lat, lng, message}) => {
-  console.log('lat prop', lat, 'lng prop', lng)
-  const [infoWindowOpen, setInfoWindowOpen] = useState(false);
+  // console.log(name, message)
+  const [infoWindowOpen, setInfoWindowOpen] = useState(true);
   const [markerRef, marker] = useAdvancedMarkerRef();
+
+  // subscribe to neighbor state to render changes
+  // const currentNeighbor = useSelect(state => state.)
 
   
   return (
     <div >
-      <AdvancedMarker ref={markerRef} title={name} position={{lat: Number(lat), lng: Number(lng)}}>
+      <AdvancedMarker ref={markerRef} onClick={() => setInfoWindowOpen(true)} title={name} position={{lat: Number(lat), lng: Number(lng)}}>
         <Pin background={'#22ccff'} borderColor={'#1e89a1'} glyphColor={'#0f677a'}/>
       </AdvancedMarker>
-      {infoWindowOpen && (
+      {message && infoWindowOpen && (
         <InfoWindow
           anchor={marker}
           maxWidth={200}

@@ -97,7 +97,7 @@ const MapUI = () => {
     const neighborComponents = neighbors.map((neighbor, index) => {
       if (neighbor.home_lat && neighbor.home_long) {
         console.log('neighbor', neighbor)
-        return <Neighbor key={index} name={neighbor.username} lat={neighbor.home_lat} lng={neighbor.home_long} />
+        return <Neighbor key={index} name={neighbor.username} lat={neighbor.home_lat} lng={neighbor.home_long} message={neighbor.message}/>
       };  
     }); 
     

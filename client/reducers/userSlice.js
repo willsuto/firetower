@@ -27,9 +27,14 @@ const userSlice = createSlice({
       state.lat = lat;
       state.lng = lng;
       state.homeLocationSet = true;
+    },
+
+    userMessageSet(state, action) {
+      console.log('payload', action.payload)
+      state.message = action.payload;
     }
   }
 })
 
-export const { userSet, userHomeSet } = userSlice.actions;
+export const { userSet, userHomeSet, userMessageSet } = userSlice.actions;
 export default userSlice.reducer;
