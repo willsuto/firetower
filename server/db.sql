@@ -5,6 +5,7 @@
 --   home_lat NUMERIC,
 --   home_long NUMERIC,
 --   home_location_set BOOLEAN,
+--   message VARCHAR(255),
 --   UNIQUE (username)
 -- );
 

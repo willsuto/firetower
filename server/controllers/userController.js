@@ -69,4 +69,21 @@ userController.saveUserData = async (req, res, next) => {
   next();
 };
 
+//add message to user profile in db
+userController.addMessage = async (req, res, next) => {
+  console.log(req.body);
+  const { username, message } = req.body;
+  const text = `UPDATE users SET message=($1) WHERE username=($2)`;
+  const params = [message, username];
+  
+  try {
+    const queryResponse = await db.query(text, params);
+    console.log('queryResponse', queryResponse)
+    next();
+  } catch (error) { next(error) };
+
+
+}
+
+
 module.exports = userController;

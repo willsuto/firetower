@@ -11,15 +11,33 @@ const Home = () => {
   const [markerRef, marker] = useAdvancedMarkerRef();
   const user = useSelector(state => state.user);
   const [message, setMessage] = useState('');
+  const currentUser = useSelector(state => state.user);
 
   const handleMessageChange = (e) => {
     e.preventDefault();
     setMessage(e.target.value); // Update message state with the new value from the event
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(message);
+    
+    try {
+      const response = await fetch('/api/message', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: currentUser.username, message: message })
+      });
+      
+      const alertMessage = await response.json();
+      alert(alertMessage)
+      // const message = await response.json();
+      // if (message === 'User already exists') alert('User already exists')
+      // else alert(message);
+
+    } catch (error) { console.error({'Error occurred during message put request': error}) };
+
   }
 
   if (user.homeLocationSet) {

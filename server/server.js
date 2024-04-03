@@ -53,6 +53,19 @@ app.post('/api/neighbors',
   (req, res) => res.status(200).json(res.locals.neighbors)
 )
 
+//add message to user profile
+app.put('/api/message',
+  userController.addMessage,
+  (req, res) => res.status(200).json('Message posted')
+)
+
+//delete message from user profile
+app.delete('/api/deleteMessage',
+
+)
+
+
+
 //catch-route handler
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../index.html'));
