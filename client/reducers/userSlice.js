@@ -32,9 +32,13 @@ const userSlice = createSlice({
     userMessageSet(state, action) {
       console.log('payload', action.payload)
       state.message = action.payload;
+    },
+
+    userLoggedOut(state, action) {
+      return initialState;
     }
   }
 })
 
-export const { userSet, userHomeSet, userMessageSet } = userSlice.actions;
+export const { userSet, userHomeSet, userMessageSet, userLoggedOut } = userSlice.actions;
 export default userSlice.reducer;

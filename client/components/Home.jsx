@@ -14,11 +14,11 @@ const Home = () => {
   const [messageText, setMessageText] = useState('');
   const dispatch = useDispatch();
 
-  const handleMessageChange = (e) => {
-    e.preventDefault();
-    setMessageText(e.target.value); // Update message state with the new value from the event
-  }
 
+  // const handleMessageChange = (e) => {
+  //   e.preventDefault();
+  //   setMessageText(e.target.value); // Update message state with the new value from the event
+  // }
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -66,6 +66,8 @@ const Home = () => {
 
   }
 
+  const inputWidth = Math.max((messageText.length * 8), 100) + "px";
+
   if (homeLocationSet) {
     return (
       <>
@@ -80,11 +82,11 @@ const Home = () => {
             anchor={marker}
             maxWidth={'auto'}
             onCloseClick={() => setInfoWindowOpen(false)}
+            className='messageFormModal'
           >
-          <form onSubmit={handleSubmit}>
-            <label>Message:
-              <input type="text" value={messageText} onChange={handleMessageChange}/>
-            </label>
+          <form className='messageForm' onSubmit={handleSubmit}>
+            <h4 className='messageFormLabel'>Message</h4>
+            <input className='messageFormInput' type="text" value={messageText} onChange={(e) => setMessageText(e.target.value)} style={{ width: inputWidth }} />
           </form>
           </InfoWindow>
         )}
@@ -93,9 +95,14 @@ const Home = () => {
           anchor={marker}
           maxWidth={'auto'}
           onCloseClick={() => setInfoWindowOpen(false)}
+          className='messageFormModal'
         >
-         {message}
-         <button onClick={handleDeleteClick}>Delete</button>
+          <div className='messageDisplay'>
+           <div className='message'>
+             {message}
+           </div>
+           <button className='deleteButton' onClick={handleDeleteClick}>Delete</button>
+          </div>
         </InfoWindow>
         )
         }

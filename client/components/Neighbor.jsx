@@ -26,7 +26,8 @@ const Neighbor = ({name, lat, lng, message}) => {
         <InfoWindow
           anchor={marker}
           maxWidth={200}
-          onCloseClick={() => setInfoWindowOpen(false)}>
+          onCloseClick={() => setInfoWindowOpen(false)}
+        >
           {message}
         </InfoWindow>
       )}
@@ -35,3 +36,4 @@ const Neighbor = ({name, lat, lng, message}) => {
 };
 
 export default Neighbor;
+          // onCloseClick={() => setInfoWindowOpen(false)}>

@@ -128,3 +128,46 @@ body {
 .controlPanel button:hover {
   filter: brightness(90%); /* Reduce brightness on hover */
 }
+
+.messageFormModal {
+  width: auto;
+  height: auto;
+}
+
+.messageForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.messageFormLabel {
+  
+}
+
+.messageFormInput {
+  width: 80%;
+  padding: 10px;
+  border: 1px solid #ccc; /* Light gray border */
+  border-radius: 5px;
+
+}
+
+.messageDisplay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.message {
+  padding-bottom: 10px;
+}
+
+.deleteButton {
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.messageDisplay button:hover {
+  filter: brightness(90%); /* Reduce brightness on hover */
+}

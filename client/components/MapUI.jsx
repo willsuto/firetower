@@ -6,9 +6,10 @@ import Neighbor from './Neighbor.jsx';
 import getFires from '../../utilities/getFires.js'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { userHomeSet } from '../reducers/userSlice.js';
+import { userHomeSet, userLoggedOut } from '../reducers/userSlice.js';
 import { firesFetched } from '../reducers/firesSlice.js';
-import { neighborsSet } from '../reducers/neighborsSlice.js';
+import { neighborsReset, neighborsSet } from '../reducers/neighborsSlice.js';
+
 
 
 const MapUI = () => {
@@ -24,36 +25,36 @@ const MapUI = () => {
   const dispatch = useDispatch();
   
 
-  //SSE Test DO I NEED DEPENDENCY ARRAY
-  useEffect(() => {
-    const eventSource = new EventSource('api/events');
+  // //SSE Test DO I NEED DEPENDENCY ARRAY
+  // useEffect(() => {
+  //   const eventSource = new EventSource('api/events');
 
-    eventSource.onmessage = (event) => {
-      const parsedData = JSON.parse(event.data)
-      console.log(parsedData)
-    }
+  //   eventSource.onmessage = (event) => {
+  //     const parsedData = JSON.parse(event.data)
+  //     console.log(parsedData)
+  //   }
 
-    eventSource.onerror = (error) => console.log('sse error', error);
+  //   eventSource.onerror = (error) => console.log('sse error', error);
 
-    // return () => eventSource.close();
-  }, [])
+  //   // return () => eventSource.close();
+  // }, [])
 
-  useEffect(() => {
-    const fetchNeighbors = async () => {
-      try {
-        const neighborsResponse = await fetch('/api/neighbors', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json', 
-          },
-          body: JSON.stringify({ username }) 
-        });
-        const neighbors = await neighborsResponse.json();
-        dispatch(neighborsSet(neighbors));
-      } catch (error) { console.log('Error fetching neighbors', error) };
-    }
-    if (username) fetchNeighbors();
-  }, []);
+  // useEffect(() => {
+  //   const fetchNeighbors = async () => {
+  //     try {
+  //       const neighborsResponse = await fetch('/api/neighbors', {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json', 
+  //         },
+  //         body: JSON.stringify({ username }) 
+  //       });
+  //       const neighbors = await neighborsResponse.json();
+  //       dispatch(neighborsSet(neighbors));
+  //     } catch (error) { console.log('Error fetching neighbors', error) };
+  //   }
+  //   if (username) fetchNeighbors();
+  // }, []);
 
   const handleClick = (e) => {
     if (settingHomeLoc) {
@@ -76,6 +77,8 @@ const MapUI = () => {
       }) 
     } catch (error) {console.error({'Error occurred during logout': error})}
 
+    dispatch(userLoggedOut());
+    dispatch(neighborsReset());
     navigate('/');
   }
 
@@ -94,17 +97,29 @@ const MapUI = () => {
   const handleNeighborsClick = async (e) => {
     e.preventDefault();
 
-    const neighborComponents = neighbors.map((neighbor, index) => {
-      if (neighbor.home_lat && neighbor.home_long) {
-        console.log('neighbor', neighbor)
-        return <Neighbor key={index} name={neighbor.username} lat={neighbor.home_lat} lng={neighbor.home_long} message={neighbor.message}/>
-      };  
-    }); 
-    
-    console.log('neighborComponents', neighborComponents)
+    try {
+      const neighborsResponse = await fetch('/api/neighbors', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', 
+        },
+        body: JSON.stringify({ username }) 
+      });
+      const neighbors = await neighborsResponse.json();
+      
+      dispatch(neighborsSet(neighbors));
 
-    setNeighborComponents(neighborComponents);
-  }
+      const neighborComponents = neighbors.map((neighbor, index) => {
+        if (neighbor.home_lat && neighbor.home_long) {
+          console.log('neighbor', neighbor)
+          return <Neighbor key={index} name={neighbor.username} lat={neighbor.home_lat} lng={neighbor.home_long} message={neighbor.message}/>
+        };  
+      }); 
+    
+      setNeighborComponents(neighborComponents);
+
+    } catch (error) { console.log('Error fetching neighbors', error) };
+  };
 
   return (
     <APIProvider apiKey={apiKey}>
@@ -113,6 +128,7 @@ const MapUI = () => {
         <button className='controlButton' onClick={handleFiresClick}>Fires</button>
         <button className='controlButton' onClick= {handleNeighborsClick}>Neighbors</button>
         <button className='controlButton' onClick={handleLogout}>Log Out</button>
+        <button className='controlButton'>Demo Fire</button>
       </div>
       <Map
         className='map'
@@ -126,7 +142,6 @@ const MapUI = () => {
       >
         <Home />
         {fireComponents && fireComponents.length > 0 && fireComponents}
-        {/* <Neighbor name={'will'} lat={32} lng={-117} message={'hi'} /> */}
         {neighborComponents && neighborComponents.length > 0 && neighborComponents}
       </Map>
     </APIProvider>
