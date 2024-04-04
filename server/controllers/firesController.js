@@ -61,4 +61,17 @@ firesController.storeFires = async (req, res, next) => {
   }
 }
 
+firesController.insertDemoFire = async (req, res, next) => {
+  const { lat, lng } = req.body;
+  const queryText = `INSERT INTO fires (latitude, longitude)
+                     VALUES ($1, $2)
+                     ON CONFLICT DO NOTHING`
+  const values = [lat, lng]
+
+  try {
+    await db.query(queryText, values);
+    next();
+  } catch(error) { next(error) };
+}
+
 module.exports = firesController;

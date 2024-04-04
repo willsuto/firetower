@@ -82,16 +82,19 @@ const MapUI = () => {
     navigate('/');
   }
 
-  const handleFiresClick = async (e) => {
-    e.preventDefault();
-
+  const fetchFires = async () => {
     try {
       const getFiresResponse = await fetch('api/getFiresState');
       const fires = await getFiresResponse.json();
       dispatch(firesFetched(fires));
       setFireComponents(fires.map((fire, index) => <Fire key={index} fireObj={fire} />));
     } catch (error) { console.error('error in handlesFiresClick', error) }
+  }
 
+  const handleFiresClick = async (e) => {
+    e.preventDefault();
+    
+    fetchFires();
   };
 
   const handleNeighborsClick = async (e) => {
@@ -121,6 +124,23 @@ const MapUI = () => {
     } catch (error) { console.log('Error fetching neighbors', error) };
   };
 
+  const handleDemoFireClick = async (e) => {
+    e.preventDefault();
+
+    try {
+      await fetch('/api/demoFire', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', 
+        },
+        body: JSON.stringify({ lat: 32.656802, lng: -116.695295 }) 
+      });
+    } catch (error) { console.log('Error posting demofire', error) };
+
+    fetchFires();
+
+  }
+
   return (
     <APIProvider apiKey={apiKey}>
       <div className='controlPanel'>
@@ -128,7 +148,7 @@ const MapUI = () => {
         <button className='controlButton' onClick={handleFiresClick}>Fires</button>
         <button className='controlButton' onClick= {handleNeighborsClick}>Neighbors</button>
         <button className='controlButton' onClick={handleLogout}>Log Out</button>
-        <button className='controlButton'>Demo Fire</button>
+        <button className='controlButton' onClick={handleDemoFireClick}>Demo Fire</button>
       </div>
       <Map
         className='map'

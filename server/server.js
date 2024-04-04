@@ -53,6 +53,13 @@ app.get('/api/fires',
   (req, res) => res.status(200).send()
 )
 
+//add demofire
+app.post('/api/demoFire',
+  firesController.insertDemoFire,
+  firesController.queryFires,
+  (req, res) => res.status(200).json(res.locals.firesArray)
+)
+
 //send fires to client
 app.get('/api/getFiresState',
   firesController.queryFires,
