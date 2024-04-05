@@ -101,28 +101,38 @@ const MapUI = () => {
   const handleNeighborsClick = async (e) => {
     e.preventDefault();
 
-    try {
-      const neighborsResponse = await fetch('/api/neighbors', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json', 
-        },
-        body: JSON.stringify({ username }) 
-      });
-      const neighbors = await neighborsResponse.json();
-      
-      dispatch(neighborsSet(neighbors));
+    const fetchAndRenderNeighbors = async () => {
+      if (username) {
+        console.log(username)
+        try {
+          const neighborsResponse = await fetch('/api/neighbors', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json', 
+            },
+            body: JSON.stringify({ username }) 
+          });
+          const neighbors = await neighborsResponse.json();
+          
+          dispatch(neighborsSet(neighbors));
 
-      const neighborComponents = neighbors.map((neighbor, index) => {
-        if (neighbor.home_lat && neighbor.home_long) {
-          console.log('neighbor', neighbor)
-          return <Neighbor key={index} name={neighbor.username} lat={neighbor.home_lat} lng={neighbor.home_long} message={neighbor.message}/>
-        };  
-      }); 
+          const neighborComponents = neighbors.map((neighbor, index) => {
+            if (neighbor.home_lat && neighbor.home_long) {
+              console.log('neighbor', neighbor)
+              return <Neighbor key={index} name={neighbor.username} lat={neighbor.home_lat} lng={neighbor.home_long} message={neighbor.message}/>
+            };  
+          }); 
+        
+          setNeighborComponents(neighborComponents);
+
+        } catch (error) { console.log('Error fetching neighbors', error) };
+        
+        setTimeout(fetchAndRenderNeighbors, 1000);
+      };
+    };
     
-      setNeighborComponents(neighborComponents);
+    fetchAndRenderNeighbors();
 
-    } catch (error) { console.log('Error fetching neighbors', error) };
   };
 
   const handleDemoFireClick = async (e) => {
