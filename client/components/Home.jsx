@@ -15,10 +15,11 @@ const Home = () => {
   const dispatch = useDispatch();
 
 
-  // const handleMessageChange = (e) => {
-  //   e.preventDefault();
-  //   setMessageText(e.target.value); // Update message state with the new value from the event
-  // }
+  const handleChange = (e) => {
+    e.preventDefault();
+    setMessageText(e.target.value); // Update message state with the new value from the event
+  }
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -86,11 +87,11 @@ const Home = () => {
           >
           <form className='messageForm' onSubmit={handleSubmit}>
             <h4 className='messageFormLabel'>Message</h4>
-            <input className='messageFormInput' type="text" value={messageText} onChange={(e) => setMessageText(e.target.value)} style={{ width: inputWidth }} />
+            <input className='messageFormInput' type="text" value={messageText} onChange={handleChange} style={{ width: inputWidth }} />
           </form>
           </InfoWindow>
         )}
-        {message && (
+        {message && infoWindowOpen && (
           <InfoWindow
           anchor={marker}
           maxWidth={'auto'}

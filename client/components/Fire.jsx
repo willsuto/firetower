@@ -39,7 +39,15 @@ const Fire = ({fireObj}) => {
           anchor={marker}
           maxWidth={200}
           onCloseClick={() => setInfoWindowOpen(false)}>
-          This is a fire.
+          <h5>Satellite: {fireObj.satellite}</h5>
+          <h5>Instrument: {fireObj.instrument}</h5>
+          <h5>Confidence: {fireObj.confidence}</h5>
+          <h5>Brightness: {fireObj.bright_ti5}</h5>
+          <h5>Day/Night: {fireObj.satellite}</h5>
+          <h5>Date: {fireObj.acq_date}</h5>
+          <h5>Time: {fireObj.acq_time}</h5>
+          
+        
         </InfoWindow>
       )}
     </>   
