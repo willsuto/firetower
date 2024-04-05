@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import getFires from '../../utilities/getFires';
+
 
 const initialState = [];
 

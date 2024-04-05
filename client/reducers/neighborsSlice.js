@@ -8,7 +8,6 @@ const neighborsSlice = createSlice({
   reducers: {
 
     neighborsSet(state, action) {
-      // console.log('action payload', action.payload);
       return action.payload;
     },
 

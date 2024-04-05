@@ -74,4 +74,16 @@ firesController.insertDemoFire = async (req, res, next) => {
   } catch(error) { next(error) };
 }
 
+firesController.deleteDemoFire = async (req, res, next) => {
+  const { lat, lng } = req.body;
+  const queryText = `DELETE FROM fires 
+                     WHERE latitude = ($1) AND longitude = ($2)`
+  const values = [lat, lng]
+
+  try {
+    await db.query(queryText, values);
+    return next();
+  } catch(error) { next(error) };
+}
+
 module.exports = firesController;

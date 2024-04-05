@@ -21,6 +21,7 @@ const MapUI = () => {
   const neighbors = useSelector(state => state.neighbors);
   const [fireComponents, setFireComponents] = useState([]); 
   const [neighborComponents, setNeighborComponents] = useState([]);
+  const [demoFireClicked, setDemoFireClicked] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   
@@ -126,18 +127,36 @@ const MapUI = () => {
 
   const handleDemoFireClick = async (e) => {
     e.preventDefault();
+    
+    if (!demoFireClicked) {
+      try {
+        await fetch('/api/demoFire', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json', 
+          },
+          body: JSON.stringify({ lat: 32.656802, lng: -116.695295 }) 
+        });
+      } catch (error) { console.log('Error posting demofire', error) };
 
-    try {
-      await fetch('/api/demoFire', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json', 
-        },
-        body: JSON.stringify({ lat: 32.656802, lng: -116.695295 }) 
-      });
-    } catch (error) { console.log('Error posting demofire', error) };
+      fetchFires();
 
-    fetchFires();
+      setDemoFireClicked(true);
+    } else {
+      try {
+        await fetch('/api/demoFire', {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json', 
+          },
+          body: JSON.stringify({ lat: 32.656802, lng: -116.695295 }) 
+        });
+        fetchFires();
+        setDemoFireClicked(false);
+      } catch (error) { console.log('Error posting demofire', error) };
+
+    
+    }
 
   }
 

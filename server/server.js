@@ -60,6 +60,12 @@ app.post('/api/demoFire',
   (req, res) => res.status(200).json(res.locals.firesArray)
 )
 
+//removeDemoFire
+app.delete('/api/demoFire',
+  firesController.deleteDemoFire,
+  (req, res) => res.status(200).send()
+)
+
 //send fires to client
 app.get('/api/getFiresState',
   firesController.queryFires,
