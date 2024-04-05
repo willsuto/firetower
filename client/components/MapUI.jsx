@@ -24,6 +24,46 @@ const MapUI = () => {
   const [demoFireClicked, setDemoFireClicked] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [neighborsClicked, setNeighborsClicked] = useState(false);
+  useEffect(() => {
+    
+    let isMounted = true;
+
+    const fetchAndRenderNeighbors = async () => {
+      if (username) {
+        // console.log(username)
+        try {
+          const neighborsResponse = await fetch('/api/neighbors', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json', 
+            },
+            body: JSON.stringify({ username }) 
+          });
+          const neighbors = await neighborsResponse.json();
+          
+          dispatch(neighborsSet(neighbors));
+  
+          const neighborComponents = neighbors.map((neighbor, index) => {
+            if (neighbor.home_lat && neighbor.home_long) {
+              console.log('neighbor', neighbor)
+              return <Neighbor key={index} name={neighbor.username} lat={neighbor.home_lat} lng={neighbor.home_long} message={neighbor.message}/>
+            };  
+          }); 
+        
+          setNeighborComponents(neighborComponents);
+  
+        } catch (error) { console.log('Error fetching neighbors', error) };
+      };
+      setTimeout(() => {
+        if (isMounted) fetchAndRenderNeighbors();
+      }, 1000);
+    };
+
+    if (username && neighborsClicked) fetchAndRenderNeighbors();
+
+    return () => isMounted = false;
+  }, [neighborsClicked]);
   
 
   // //SSE Test DO I NEED DEPENDENCY ARRAY
@@ -98,41 +138,40 @@ const MapUI = () => {
     fetchFires();
   };
 
+  // const fetchAndRenderNeighbors = async () => {
+  //   if (username) {
+  //     console.log(username)
+  //     try {
+  //       const neighborsResponse = await fetch('/api/neighbors', {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json', 
+  //         },
+  //         body: JSON.stringify({ username }) 
+  //       });
+  //       const neighbors = await neighborsResponse.json();
+        
+  //       dispatch(neighborsSet(neighbors));
+
+  //       const neighborComponents = neighbors.map((neighbor, index) => {
+  //         if (neighbor.home_lat && neighbor.home_long) {
+  //           console.log('neighbor', neighbor)
+  //           return <Neighbor key={index} name={neighbor.username} lat={neighbor.home_lat} lng={neighbor.home_long} message={neighbor.message}/>
+  //         };  
+  //       }); 
+      
+  //       setNeighborComponents(neighborComponents);
+
+  //     } catch (error) { console.log('Error fetching neighbors', error) };
+  //   };
+  // };
+
   const handleNeighborsClick = async (e) => {
     e.preventDefault();
 
-    const fetchAndRenderNeighbors = async () => {
-      if (username) {
-        console.log(username)
-        try {
-          const neighborsResponse = await fetch('/api/neighbors', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json', 
-            },
-            body: JSON.stringify({ username }) 
-          });
-          const neighbors = await neighborsResponse.json();
-          
-          dispatch(neighborsSet(neighbors));
-
-          const neighborComponents = neighbors.map((neighbor, index) => {
-            if (neighbor.home_lat && neighbor.home_long) {
-              console.log('neighbor', neighbor)
-              return <Neighbor key={index} name={neighbor.username} lat={neighbor.home_lat} lng={neighbor.home_long} message={neighbor.message}/>
-            };  
-          }); 
-        
-          setNeighborComponents(neighborComponents);
-
-        } catch (error) { console.log('Error fetching neighbors', error) };
-        
-        setTimeout(fetchAndRenderNeighbors, 1000);
-      };
-    };
+    // fetchAndRenderNeighbors();
     
-    fetchAndRenderNeighbors();
-
+    setNeighborsClicked(true);
   };
 
   const handleDemoFireClick = async (e) => {
