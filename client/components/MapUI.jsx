@@ -25,6 +25,7 @@ const MapUI = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [neighborsClicked, setNeighborsClicked] = useState(false);
+  const [firesClicked, setFiresClicked] = useState(false);
   useEffect(() => {
     
     let isMounted = true;
@@ -60,7 +61,9 @@ const MapUI = () => {
       }, 1000);
     };
 
-    if (username && neighborsClicked) fetchAndRenderNeighbors();
+    if (username && neighborsClicked) fetchAndRenderNeighbors()
+    else setNeighborComponents([]);
+
 
     return () => isMounted = false;
   }, [neighborsClicked]);
@@ -133,9 +136,14 @@ const MapUI = () => {
   }
 
   const handleFiresClick = async (e) => {
-    e.preventDefault();
-    
-    fetchFires();
+    if (!firesClicked) {
+      e.preventDefault();
+      fetchFires();
+      setFiresClicked(true);
+    } else {
+      setFireComponents([]);
+      setFiresClicked(false);
+    }
   };
 
   // const fetchAndRenderNeighbors = async () => {
@@ -167,11 +175,11 @@ const MapUI = () => {
   // };
 
   const handleNeighborsClick = async (e) => {
-    e.preventDefault();
-
-    // fetchAndRenderNeighbors();
-    
-    setNeighborsClicked(true);
+    if (!neighborsClicked) {
+      e.preventDefault();
+      // fetchAndRenderNeighbors();
+      setNeighborsClicked(true);
+    } else setNeighborsClicked(false);
   };
 
   const handleDemoFireClick = async (e) => {
@@ -212,7 +220,8 @@ const MapUI = () => {
   return (
     <APIProvider apiKey={apiKey}>
       <div className='controlPanel'>
-        <button className='controlButton' onClick={() => setSettingHomeLoc(true)}>Home</button>
+        <h3>{`Welcome, ${username}`}</h3>
+        <button className='controlButton' onClick={() => setSettingHomeLoc(true)}>Set Home</button>
         <button className='controlButton' onClick={handleFiresClick}>Fires</button>
         <button className='controlButton' onClick= {handleNeighborsClick}>Neighbors</button>
         <button className='controlButton' onClick={handleLogout}>Log Out</button>
